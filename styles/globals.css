@@ -3,13 +3,29 @@
 @tailwind utilities;
 
 body {
-  @apply bg-white
+  @apply bg-white overflow-hidden
 }
 
 .default-hover {
-  @apply rounded-lg p-2 cursor-pointer
+  @apply rounded-lg cursor-pointer duration-300 p-2
 }
 
 .default-hover:hover {
   @apply bg-blue-500
+}
+
+.close-menu::after {
+  background-color: white;
+  content: "";
+  position: absolute;
+  right: 0.5px;
+  top: 15px;
+  width: 16px;
+  height: 1.6px;
+  transform: rotate(90deg);
+  transition: .3s ease;
+}
+
+.close-menu-active::after {
+  transform: rotate(0deg);
 }
