@@ -5,3 +5,11 @@
 body {
   @apply bg-white
 }
+
+.default-hover {
+  @apply rounded-lg p-2 cursor-pointer
+}
+
+.default-hover:hover {
+  @apply bg-blue-500
+}
