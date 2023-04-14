@@ -15,6 +15,9 @@ export default function Home() {
 
     const menuItemsRefs = useRef<HTMLUListElement[]>([])
     const closeButtonRefs = useRef<HTMLSpanElement[]>([])
+    const accountPopupRef = useRef<HTMLDivElement>(null)
+    const navigationMenuRef = useRef<HTMLDivElement>(null)
+    const sidebarRef = useRef<HTMLDListElement>(null)
 
     const doOpenMenu = (menuItem: HTMLUListElement) => {
         menuItem.classList.toggle("hidden")
@@ -25,9 +28,26 @@ export default function Home() {
         spanItem.classList.toggle("close-menu-active")
     }
 
+    const doOpenAccountPopup = () => {
+        accountPopupRef.current?.classList.toggle("hidden")
+        accountPopupRef.current?.classList.toggle("account-popup-active")
+    }
+
+    const doMinimizeSidebar = () => {
+        navigationMenuRef.current?.classList.toggle("hidden")
+        sidebarRef.current?.classList.toggle("w-80")
+        sidebarRef.current?.classList.toggle("w-[4.5rem]")
+    }
+
     return (
-        <aside className="flex h-screen w-80 justify-between bg-[#0050F4]/90 p-4">
-            <aside className="[&>img]:ease flex w-10 flex-col items-center">
+        <aside
+            ref={sidebarRef}
+            className="ease flex h-screen w-80 select-none justify-between bg-[#0050F4]/90 p-4 backdrop-blur-lg duration-300"
+        >
+            <aside
+                onDoubleClick={doMinimizeSidebar}
+                className="[&>img]:ease flex w-10 flex-col items-center"
+            >
                 {/* Account Photo */}
                 <div className="mb-4 h-10 w-10 cursor-pointer rounded-full bg-white shadow-md"></div>
                 {/* Sidebar Icons - Top */}
@@ -80,29 +100,41 @@ export default function Home() {
                     />
                 </div>
                 {/* Account Photo */}
-                <div className="h-10 w-10 cursor-pointer rounded-full bg-white shadow-md"></div>
+                <div
+                    onClick={doOpenAccountPopup}
+                    className="h-10 w-10 cursor-pointer rounded-full bg-white shadow-md"
+                ></div>
                 {/* Account Settings Popup */}
-                <div>
-                    <ul>
-                        <li>
-                            <span>View your profile</span>
-                        </li>
-                        <li>
-                            <span></span>
-                            <span></span>
-                        </li>
-                        <li>
-                            <span></span>
-                            <span></span>
-                        </li>
-                        <li>
-                            <span></span>
-                            <span></span>
-                        </li>
+                <div
+                    ref={accountPopupRef}
+                    className="absolute bottom-16 left-16 z-10 hidden rounded-lg border border-slate-300 bg-[#0050F4]/90 p-3 text-sm text-white backdrop-blur-md"
+                >
+                    <ul className="flex flex-col gap-2 pb-2">
+                        <Link href={""} className="default-hover">
+                            <li>View your profile</li>
+                        </Link>
+                        <Link href={""} className="default-hover">
+                            <li>Account settings</li>
+                        </Link>
+                        <Link href={""} className="default-hover">
+                            <li>Keyboard shortcuts</li>
+                        </Link>
+                        <Link href={""} className="default-hover">
+                            <li>What's new?</li>
+                        </Link>
                     </ul>
+                    <div className="flex border-t-[1px] border-slate-300 pt-2">
+                        <div className="h-10 w-10 cursor-pointer rounded-full bg-white shadow-md"></div>
+                        <div className="ml-4 flex flex-col text-sm">
+                            <p>Dmytro Honcharenko</p>
+                            <p className="text-slate-300">
+                                honcharenko@duck.com
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </aside>
-            <main className="overflow-y-scroll">
+            <main ref={navigationMenuRef} className="overflow-y-scroll">
                 <header className="flex max-w-full items-center justify-between">
                     <h2 className="text-white">sidebardesign.com</h2>
                     <div className="default-hover ml-14 cursor-pointer">

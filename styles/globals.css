@@ -4,6 +4,7 @@
 
 :root {
   --transition-time: .3s;
+  --animation-time: .5s;
 }
 
 body {
@@ -35,18 +36,33 @@ body {
 }
 
 .menu-item-active {
-  transition: var(--transition-time) ease;
-  animation: menu-item-active .5s forwards;
+  animation: menu-item-active var(--animation-time) forwards;
 }
 
 @keyframes menu-item-active {
   from {
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(-7px);
   }
 
   to {
     opacity: 1;
     transform: translateY(0px);
+  }
+}
+
+.account-popup-active {
+  animation: account-popup-active var(--animation-time) forwards;
+}
+
+@keyframes account-popup-active {
+  from {
+    transform: translateY(7px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(0);
+    opacity: 1;
   }
 }
