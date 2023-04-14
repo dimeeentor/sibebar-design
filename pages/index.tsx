@@ -3,14 +3,6 @@ import Link from "next/link"
 import { Ref, RefObject, useRef } from "react"
 
 export default function Home() {
-    const overview = useRef<HTMLUListElement>(null)
-    const store = useRef<HTMLUListElement>(null)
-    const emails = useRef<HTMLUListElement>(null)
-    const reports = useRef<HTMLUListElement>(null)
-    const design = useRef<HTMLUListElement>(null)
-    const discounts = useRef<HTMLUListElement>(null)
-    const licenses = useRef<HTMLUListElement>(null)
-
     const menuItems = [
         "Overview",
         "Store",
@@ -22,16 +14,22 @@ export default function Home() {
     ]
 
     const menuItemsRefs = useRef<HTMLUListElement[]>([])
+    const closeButtonRefs = useRef<HTMLSpanElement[]>([])
 
-    function doOpenMenu(menuItem: HTMLUListElement) {
-        return menuItem.classList.toggle("hidden")
+    const doOpenMenu = (menuItem: HTMLUListElement) => {
+        menuItem.classList.toggle("hidden")
+        menuItem.classList.toggle("menu-item-active")
+    }
+
+    const doActivateCloseMenuTrigger = (spanItem: HTMLSpanElement) => {
+        spanItem.classList.toggle("close-menu-active")
     }
 
     return (
         <aside className="flex h-screen w-80 justify-between bg-[#0050F4]/90 p-4">
-            <aside className="[&>img]:ease flex h-full w-10 flex-col items-center">
+            <aside className="[&>img]:ease flex w-10 flex-col items-center">
                 {/* Account Photo */}
-                <div className="mb-4 h-10 w-10 flex-none cursor-pointer rounded-full bg-white shadow-md"></div>
+                <div className="mb-4 h-10 w-10 cursor-pointer rounded-full bg-white shadow-md"></div>
                 {/* Sidebar Icons - Top */}
                 <nav className="ease flex w-fit grow flex-col items-center gap-2">
                     <Link href={""} className="default-hover">
@@ -82,7 +80,27 @@ export default function Home() {
                     />
                 </div>
                 {/* Account Photo */}
-                <div className="h-10 w-10 flex-none cursor-pointer rounded-full bg-white shadow-md"></div>
+                <div className="h-10 w-10 cursor-pointer rounded-full bg-white shadow-md"></div>
+                {/* Account Settings Popup */}
+                <div>
+                    <ul>
+                        <li>
+                            <span>View your profile</span>
+                        </li>
+                        <li>
+                            <span></span>
+                            <span></span>
+                        </li>
+                        <li>
+                            <span></span>
+                            <span></span>
+                        </li>
+                        <li>
+                            <span></span>
+                            <span></span>
+                        </li>
+                    </ul>
+                </div>
             </aside>
             <main className="overflow-y-scroll">
                 <header className="flex max-w-full items-center justify-between">
@@ -103,13 +121,22 @@ export default function Home() {
                             <menu key={element}>
                                 <div
                                     className="default-hover flex justify-between"
-                                    onClick={(e) => {
-                                        console.log(e.target)
+                                    onClick={() => {
                                         doOpenMenu(menuItemsRefs.current[index])
+                                        doActivateCloseMenuTrigger(
+                                            closeButtonRefs.current[index]
+                                        )
                                     }}
                                 >
                                     <span>{element}</span>
-                                    <span className="close-menu relative text-xl">
+                                    <span
+                                        ref={(element: HTMLSpanElement) =>
+                                            closeButtonRefs.current.push(
+                                                element
+                                            )
+                                        }
+                                        className="close-menu relative text-xl text-slate-200"
+                                    >
                                         —
                                     </span>
                                 </div>
@@ -117,12 +144,20 @@ export default function Home() {
                                     ref={(element: HTMLUListElement) =>
                                         menuItemsRefs.current.push(element)
                                     }
-                                    className="hidden px-2"
+                                    className="hidden"
                                 >
-                                    <li className="list-disc">Item 1</li>
-                                    <li className="list-disc">Item 2</li>
-                                    <li className="list-disc">Item 3</li>
-                                    <li className="list-disc">Item 4</li>
+                                    <li className="ease cursor-pointer rounded-lg py-2 pl-4 duration-300 hover:bg-blue-500">
+                                        Item 1
+                                    </li>
+                                    <li className="ease cursor-pointer rounded-lg py-2 pl-4 duration-300 hover:bg-blue-500">
+                                        Item 2
+                                    </li>
+                                    <li className="ease cursor-pointer rounded-lg py-2 pl-4 duration-300 hover:bg-blue-500">
+                                        Item 3
+                                    </li>
+                                    <li className="ease cursor-pointer rounded-lg py-2 pl-4 duration-300 hover:bg-blue-500">
+                                        Item 4
+                                    </li>
                                 </ul>
                             </menu>
                         )

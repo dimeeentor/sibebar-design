@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --transition-time: .3s;
+}
+
 body {
   @apply bg-white overflow-hidden
 }
@@ -15,7 +19,7 @@ body {
 }
 
 .close-menu::after {
-  background-color: white;
+  @apply bg-slate-200;
   content: "";
   position: absolute;
   right: 0.5px;
@@ -23,9 +27,26 @@ body {
   width: 16px;
   height: 1.6px;
   transform: rotate(90deg);
-  transition: .3s ease;
+  transition: var(--transition-time) ease;
 }
 
 .close-menu-active::after {
   transform: rotate(0deg);
+}
+
+.menu-item-active {
+  transition: var(--transition-time) ease;
+  animation: menu-item-active .5s forwards;
+}
+
+@keyframes menu-item-active {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
 }
